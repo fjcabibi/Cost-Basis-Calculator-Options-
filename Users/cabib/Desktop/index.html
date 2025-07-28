@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Options Calculator</h2>
+                <button class="sidebar-toggle" id="sidebarToggle"></button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#basic-calculator" class="nav-link active" data-tab="basic-calculator">
+                            <i></i>
+                            <span>Basic Calculator</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#bear-put-spread" class="nav-link" data-tab="bear-put-spread">
+                            <i></i>
+                            <span>Bear Put Vertical Spread</span>
+                        </a>
+                    </li>
+                    <li class="nav-item"><li class="nav-item"><a href="#sell-put" class="nav-link" data-tab="sell-put"><i></i><span>Sell Put</span></a></li><li class="nav-item">
+                        <a href="#portfolio" class="nav-link" data-tab="portfolio">
+                            <i></i>
+                            <span>Portfolio</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings" class="nav-link" data-tab="settings">
+                            <i></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Basic Calculator Tab -->
+            <div class="tab-content active" id="basic-calculator">
+                <header class="header">
+                    <h1 class="title">Cost Basis Calculator</h1>
+                    <p class="subtitle">Calculate the cost basis and break-even for your options trades</p>
+                </header>
+
+                <div class="content-grid">
+                    <div class="calculator-section">
+                        <h2>Trade Parameters</h2>
+                        <form class="calculator-form" id="costBasisForm">
+                            <div class="form-group">
+                                <label for="tickerSymbol">Ticker Symbol</label>
+                                <input type="text" id="tickerSymbol" name="tickerSymbol" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="purchasePrice">Purchase Price ($)</label>
+                                    <input type="number" id="purchasePrice" name="purchasePrice" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity</label>
+                                    <input type="number" id="quantity" name="quantity" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="commission">Commission ($)</label>
+                                <input type="number" id="commission" name="commission" step="0.01" value="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="optionType">Option Type</label>
+                                <select id="optionType" name="optionType">
+                                    <option value="call">Call Option</option>
+                                    <option value="put">Put Option</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="strikePrice">Strike Price ($)</label>
+                                <input type="number" id="strikePrice" name="strikePrice" step="0.01" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="expirationDate">Expiration Date</label>
+                                <input type="date" id="expirationDate" name="expirationDate" required>
+                            </div>
+
+                            <button type="submit" class="calculate-btn">Calculate Cost Basis</button>
+                        </form>
+                    </div>
+
+                    <div class="results-section" id="resultsSection" style="display: none;">
+                        <h2>Results</h2>
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <h3>Total Cost Basis</h3>
+                                <p class="result-value" id="totalCostBasis">$0.00</p>
+                            </div>
+                            <div class="result-card">
+                                <h3>Cost Per Share</h3>
+                                <p class="result-value" id="costPerShare">$0.00</p>
+                            </div>
+                            <div class="result-card">
+                                <h3>Break-Even Price</h3>
+                                <p class="result-value" id="breakEvenPrice">$0.00</p>
+                            </div>
+                            <div class="result-card">
+                                <h3>Days to Expiration</h3>
+                                <p class="result-value" id="daysToExpiration">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bear Put Vertical Spread Tab -->
+            <div class="tab-content" id="bear-put-spread">
+                <header class="header">
+                    <h1 class="title">Bear Put Vertical Spread</h1>
+                    <p class="subtitle">Calculate profit/loss for bear put spread strategy</p>
+                </header>
+
+                <div class="content-grid">
+                    <div class="calculator-section">
+                        <h2>Spread Parameters</h2>
+                        <form class="calculator-form" id="bearPutForm">
+                            <div class="form-group">
+                                <label for="spreadTickerSymbol">Ticker Symbol</label>
+                                <input type="text" id="spreadTickerSymbol" name="spreadTickerSymbol" placeholder="e.g., SPY, AAPL, NVDA" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="longPutStrike">Long Put Strike Price ($)</label>
+                                    <input type="number" id="longPutStrike" name="longPutStrike" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="shortPutStrike">Short Put Strike Price ($)</label>
+                                    <input type="number" id="shortPutStrike" name="shortPutStrike" step="0.01" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="totalContractPremium">Total Contract Premium ($)</label>
+                                <input type="number" id="totalContractPremium" name="totalContractPremium" step="0.01" placeholder="Net premium to pay/receive">
+                                <small class="form-help">Enter the net premium if your brokerage shows the overall cost</small>
+                            </div>
+
+                            <div class="calculated-field" id="spreadCalculation">
+                                <div class="calculation-display">
+                                    <div class="calc-item">
+                                        <span class="calc-label">Spread Width:</span>
+                                        <span class="calc-value" id="spreadWidth">$0.00</span>
+                                    </div>
+                                    <div class="calc-item">
+                                        <span class="calc-label">Net Profit Potential:</span>
+                                        <span class="calc-value" id="netProfitPotential">$0.00</span>
+                                    </div>
+                                    <div class="calc-item">
+                                        <span class="calc-label">Max Risk:</span>
+                                        <span class="calc-value" id="maxRisk">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row" id="individualPricesRow">
+                                <div class="form-group">
+                                    <label for="longPutPrice">Long Put Price ($) <span class="optional">(Optional)</span></label>
+                                    <input type="number" id="longPutPrice" name="longPutPrice" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="shortPutPrice">Short Put Price ($) <span class="optional">(Optional)</span></label>
+                                    <input type="number" id="shortPutPrice" name="shortPutPrice" step="0.01">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="currentStockPrice">Current Stock Price ($) <span class="optional">(Optional)</span></label>
+                                <input type="number" id="currentStockPrice" name="currentStockPrice" step="0.01" placeholder="Current stock price">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contracts">Number of Contracts</label>
+                                <input type="number" id="contracts" name="contracts" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="spreadExpiration">Expiration Date</label>
+                                <input type="date" id="spreadExpiration" name="spreadExpiration" required>
+                            </div>
+
+                            <button type="submit" class="calculate-btn">Calculate Spread</button>
+                        </form>
+                    </div>
+
+                    <div class="results-section" id="spreadResultsSection" style="display: none;">
+                        <h2>Spread Analysis</h2>
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <h3>Max Profit</h3>
+                                <p class="result-value" id="maxProfit">$0.00</p>
+                            </div>
+                            <div class="result-card">
+                                <h3>Max Loss</h3>
+                                <p class="result-value" id="maxLoss">$0.00</p>
+                            </div>
+                            <div class="result-card">
+                                <h3>Break-Even</h3>
+                                <p class="result-value" id="spreadBreakEven">$0.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sell Put Tab -->
+            <div class="tab-content" id="sell-put">
+                <header class="header">
+                    <h1 class="title">Sell Put</h1>
+                    <p class="subtitle">Calculate profit/loss for cash secured put strategy</p>
+                </header>
+                <div class="content-grid">
+                    <div class="calculator-section">
+                        <h2>Put Parameters</h2>
+                        <form class="calculator-form" id="sellPutForm">
+                            <div class="form-group">
+                                <label for="putStrikePrice">Strike Price ($)</label>
+                                <input type="number" id="putStrikePrice" name="putStrikePrice" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="putPremium">Premium ($)</label>
+                                <input type="number" id="putPremium" name="putPremium" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="originalCostBasis">Original Cost Basis ($)</label>
+                                <input type="number" id="originalCostBasis" name="originalCostBasis" step="0.01" required>
+                            </div>
+                            <button type="submit" class="calculate-btn">Calculate Sell Put</button>
+                        </form>
+                    </div>
+                </div>
+            </div><!-- Portfolio Tab -->
+            <div class="tab-content" id="portfolio">
+                <header class="header">
+                    <h1 class="title">Portfolio</h1>
+                    <p class="subtitle">Track your options positions</p>
+                </header>
+                <div class="content-grid">
+                    <div class="portfolio-section">
+                        <h2>Your Positions</h2>
+                        <p class="coming-soon">Portfolio tracking feature coming soon...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings">
+                <header class="header">
+                    <h1 class="title">Settings</h1>
+                    <p class="subtitle">Configure your preferences</p>
+                </header>
+                <div class="content-grid">
+                    <div class="settings-section">
+                        <h2>Preferences</h2>
+                        <p class="coming-soon">Settings feature coming soon...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
