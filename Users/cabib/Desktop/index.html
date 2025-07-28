@@ -250,6 +250,27 @@
                             <button type="submit" class="calculate-btn">Calculate Sell Put</button>
                         </form>
                     </div>
+
+                    <div class="results-section" id="sellPutResultsSection" style="display: none;">
+                        <h2>Sell Put Analysis</h2>
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <h3>Effective Stock Price if Assigned</h3>
+                                <p class="result-value" id="costBasis">$0.00</p>
+                                <small>Strike Price - Premium</small>
+                            </div>
+                            <div class="result-card">
+                                <h3>Net Cost Basis</h3>
+                                <p class="result-value" id="netCostBasis">$0.00</p>
+                                <small>Effective Price - Original Cost Basis</small>
+                            </div>
+                            <div class="result-card">
+                                <h3>Profit/Loss if Assigned</h3>
+                                <p class="result-value" id="sellPutProfitLoss">$0.00</p>
+                                <small>Premium - (Strike - Original Cost Basis)</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div><!-- Portfolio Tab -->
             <div class="tab-content" id="portfolio">

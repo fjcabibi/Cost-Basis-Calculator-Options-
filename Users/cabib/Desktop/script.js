@@ -440,6 +440,7 @@ class SellPutCalculator {
     calculateSellPut() {
         const strikePrice = parseFloat(document.getElementById("putStrikePrice").value);
         const premium = parseFloat(document.getElementById("putPremium").value);
+        const originalCostBasis = parseFloat(document.getElementById("originalCostBasis").value);
 
         if (isNaN(strikePrice) || strikePrice <= 0) {
             alert("Please enter a valid strike price");
@@ -451,25 +452,41 @@ class SellPutCalculator {
             return;
         }
 
-        // Calculate cost basis: Strike Price - Premium
-        const costBasis = strikePrice - premium;
+        if (isNaN(originalCostBasis) || originalCostBasis < 0) {
+            alert("Please enter a valid original cost basis (must be non-negative)");
+            return;
+        }
 
-        this.updateSellPutResults(strikePrice, premium, costBasis);
+        // Calculate effective stock price if assigned: Strike Price - Premium
+        const effectiveStockPrice = strikePrice - premium;
+        
+        // Calculate net cost basis: Effective Price - Original Cost Basis
+        const netCostBasis = effectiveStockPrice - originalCostBasis;
+        
+        // Calculate profit/loss if assigned: Premium - (Strike - Original Cost Basis)
+        const profitLoss = premium - (strikePrice - originalCostBasis);
+
+        this.updateSellPutResults(strikePrice, premium, originalCostBasis, effectiveStockPrice, netCostBasis, profitLoss);
     }
 
-    updateSellPutResults(strikePrice, premium, costBasis) {
+    updateSellPutResults(strikePrice, premium, originalCostBasis, effectiveStockPrice, netCostBasis, profitLoss) {
         const resultsContainer = document.getElementById("sellPutResultsSection");
         if (resultsContainer) {
             resultsContainer.style.display = "block";
             resultsContainer.scrollIntoView({ behavior: "smooth" });
         }
 
-        document.getElementById("costBasis").textContent = this.formatCurrency(costBasis);
+        document.getElementById("costBasis").textContent = this.formatCurrency(effectiveStockPrice);
+        document.getElementById("netCostBasis").textContent = this.formatCurrency(netCostBasis);
+        document.getElementById("sellPutProfitLoss").textContent = this.formatCurrency(profitLoss);
 
         console.log("Sell Put calculated:", {
             strikePrice,
             premium,
-            costBasis
+            originalCostBasis,
+            effectiveStockPrice,
+            netCostBasis,
+            profitLoss
         });
     }
 
